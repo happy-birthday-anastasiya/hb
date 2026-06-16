@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>С Днём Рождения, Настюша! 🎁</title>
+    
+    <!-- Model Viewer -->
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.3.0/model-viewer.min.js"></script>
+    
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Загрузка -->
+    <div id="loading-overlay" class="loading-overlay hidden">
+        <div class="loading-spinner"></div>
+        <p class="loading-text">Открываем подарок...</p>
+    </div>
+
+    <!-- Стартовый экран -->
+    <div id="start-screen">
+        <div class="stars"></div>
+        <div class="content">
+            <!-- Красивое поздравление -->
+            <div class="greeting-card">
+                <div class="greeting-sparkle greeting-sparkle-tl">✨</div>
+                <div class="greeting-sparkle greeting-sparkle-tr">💫</div>
+                <div class="greeting-sparkle greeting-sparkle-bl">⭐</div>
+                <div class="greeting-sparkle greeting-sparkle-br">🌟</div>
+                
+                <div class="greeting-header">
+                    <span class="greeting-emoji">🎂</span>
+                    <h1 class="greeting-title">С Днём Рождения,<br>Настюша!</h1>
+                    <span class="greeting-emoji">🎉</span>
+                </div>
+                
+                <div class="greeting-wishes">
+                    <p class="greeting-wish">
+                        <span class="wish-icon">💫</span>
+                        Хочется тебе пожелать твое одно большое счастье 💫
+                    </p>
+                    <p class="greeting-wish">
+                        <span class="wish-icon">💡</span>
+                        Как можно больше хороших и нужных людей рядом 💡
+                    </p>
+                    <p class="greeting-wish">
+                        <span class="wish-icon">🚀</span>
+                        Полноты жизни, любви, удачи, денег 🚀
+                    </p>
+                    <p class="greeting-wish">
+                        <span class="wish-icon">💫</span> 
+                        Чтобы всегда радовала окружающих своей красотой! Ну это как обычно ты делаешь 💫
+                    </p>
+                    <p class="greeting-wish">
+                        <span class="wish-icon">☄️</span>
+                        В твой день рождение еще вот такая штука говорят пролетела ☄️
+                    </p>
+                </div>
+                
+                <div class="greeting-footer">
+                    <span class="heart">💖</span>
+                    <span class="heart">💝</span>
+                    <span class="heart">💖</span>
+                </div>
+            </div>
+            
+            <!-- Три подарка -->
+            <h2 class="gifts-section-title">
+                <span class="gifts-title-line"></span>
+                <span class="gifts-title-text">🎀 Твои подарки 🎀</span>
+                <span class="gifts-title-line"></span>
+            </h2>
+            
+            <div class="gifts-row">
+                <!-- Подарок 1 - Золотой -->
+                <div class="gift-card gift-card-gold" data-gift="1">
+                    <div class="gift-card-glow"></div>
+                    <div class="gift-card-content">
+                        <div class="gift-preview">
+                            <span class="gift-3d-icon">🎁</span>
+                            <div class="gift-particles">
+                                <span class="particle p1">✨</span>
+                                <span class="particle p2">💫</span>
+                                <span class="particle p3">⭐</span>
+                            </div>
+                        </div>
+                        <div class="gift-info">
+                            <span class="gift-badge gold">#1</span>
+                            <span class="gift-card-name">Подарок</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Подарок 2 - Хрустальный -->
+                <div class="gift-card gift-card-crystal" data-gift="2">
+                    <div class="gift-card-glow"></div>
+                    <div class="gift-card-content">
+                        <div class="gift-preview">
+                            <span class="gift-3d-icon">🎁</span>
+                            <div class="gift-particles">
+                                <span class="particle p1">💎</span>
+                                <span class="particle p2">✨</span>
+                                <span class="particle p3">💠</span>
+                            </div>
+                        </div>
+                        <div class="gift-info">
+                            <span class="gift-badge crystal">#2</span>
+                            <span class="gift-card-name">Подарок</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Подарок 3 - Космический -->
+                <div class="gift-card gift-card-cosmic" data-gift="3">
+                    <div class="gift-card-glow"></div>
+                    <div class="gift-card-content">
+                        <div class="gift-preview">
+                            <span class="gift-3d-icon">🎁</span>
+                            <div class="gift-particles">
+                                <span class="particle p1">🌟</span>
+                                <span class="particle p2">☄️</span>
+                                <span class="particle p3">🌍</span>
+                            </div>
+                        </div>
+                        <div class="gift-info">
+                            <span class="gift-badge cosmic">#3</span>
+                            <span class="gift-card-name">Подарок</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Модальное окно для AR просмотра подарка -->
+    <div id="gift-modal" class="gift-modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">🎁 Твой подарок</h2>
+                <button id="close-modal" class="close-btn">✕</button>
+            </div>
+            
+            <div class="modal-body">
+                <!-- Model Viewer для 3D просмотра -->
+                <model-viewer 
+                    id="gift-model-viewer"
+                    src=""
+                    ar
+                    ar-modes="webxr scene-viewer quick-look"
+                    camera-controls
+                    touch-action="pan-y"
+                    camera-orbit="45deg 55deg 3m"
+                    min-camera-orbit="auto auto 1m"
+                    max-camera-orbit="auto auto 5m"
+                    exposure="1"
+                    shadow-intensity="1"
+                    environment-image="neutral"
+                    style="width: 100%; height: 400px;"
+                >
+                    <button slot="ar-button" class="ar-button">
+                        <span>📱 Открыть в AR</span>
+                    </button>
+                </model-viewer>
+                
+                <div class="gift-description">
+                    <p id="gift-description-text"></p>
+                </div>
+                
+                <div class="gift-actions">
+                    <button id="ar-view-btn" class="action-btn ar-btn">
+                        <span>📱</span> Посмотреть в AR
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,828 @@
+/* ========== БАЗА ========== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', 'Arial', sans-serif;
+    overflow-x: hidden;
+    width: 100vw;
+    min-height: 100vh;
+    background: #0a0a1a;
+}
+
+/* ========== ЗАГРУЗКА ========== */
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(10, 10, 26, 0.95);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    backdrop-filter: blur(10px);
+}
+
+.loading-overlay.hidden {
+    display: none;
+}
+
+.loading-spinner {
+    width: 60px;
+    height: 60px;
+    border: 3px solid rgba(255, 255, 255, 0.1);
+    border-top: 3px solid #ffd700;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+.loading-text {
+    color: rgba(255, 255, 255, 0.9);
+    margin-top: 20px;
+    font-size: 18px;
+    text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* ========== СТАРТОВЫЙ ЭКРАН ========== */
+#start-screen {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #0f0c29 0%, #1a1040 30%, #0d0d2b 60%, #0a0a1a 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    position: relative;
+}
+
+/* Звезды */
+.stars {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+    background-image: 
+        radial-gradient(2px 2px at 10% 20%, rgba(255,255,255,0.8), transparent),
+        radial-gradient(1px 1px at 25% 45%, rgba(255,255,255,0.6), transparent),
+        radial-gradient(2px 2px at 40% 70%, rgba(255,255,255,0.9), transparent),
+        radial-gradient(1px 1px at 55% 15%, rgba(255,255,255,0.5), transparent),
+        radial-gradient(2px 2px at 70% 50%, rgba(255,255,255,0.7), transparent),
+        radial-gradient(1px 1px at 85% 30%, rgba(255,255,255,0.8), transparent),
+        radial-gradient(2px 2px at 15% 85%, rgba(255,255,255,0.6), transparent),
+        radial-gradient(1px 1px at 60% 90%, rgba(255,255,255,0.9), transparent);
+    background-size: 300px 300px;
+    animation: starsTwinkle 4s ease-in-out infinite;
+}
+
+@keyframes starsTwinkle {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; }
+}
+
+.content {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 700px;
+    text-align: center;
+}
+
+/* ========== КАРТОЧКА ПОЗДРАВЛЕНИЯ ========== */
+.greeting-card {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 30px;
+    padding: 40px 30px;
+    margin-bottom: 40px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+}
+
+.greeting-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 300%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 215, 0, 0.05),
+        rgba(255, 105, 180, 0.05),
+        transparent
+    );
+    animation: shimmer 4s infinite;
+}
+
+@keyframes shimmer {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(33.33%); }
+}
+
+.greeting-sparkle {
+    position: absolute;
+    font-size: 20px;
+    animation: cornerSparkle 2s ease-in-out infinite;
+}
+
+.greeting-sparkle-tl { top: 15px; left: 15px; animation-delay: 0s; }
+.greeting-sparkle-tr { top: 15px; right: 15px; animation-delay: 0.5s; }
+.greeting-sparkle-bl { bottom: 15px; left: 15px; animation-delay: 1s; }
+.greeting-sparkle-br { bottom: 15px; right: 15px; animation-delay: 1.5s; }
+
+@keyframes cornerSparkle {
+    0%, 100% { transform: scale(1); opacity: 0.5; }
+    50% { transform: scale(1.5); opacity: 1; }
+}
+
+/* Заголовок */
+.greeting-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.greeting-emoji {
+    font-size: 40px;
+    animation: emojiWave 2s ease-in-out infinite;
+}
+
+.greeting-emoji:last-child {
+    animation-delay: 0.5s;
+}
+
+@keyframes emojiWave {
+    0%, 100% { transform: rotate(0deg) scale(1); }
+    25% { transform: rotate(-10deg) scale(1.1); }
+    75% { transform: rotate(10deg) scale(1.1); }
+}
+
+.greeting-title {
+    color: #fff;
+    font-size: clamp(26px, 5vw, 42px);
+    font-weight: 800;
+    text-shadow: 0 0 30px rgba(255, 105, 180, 0.4),
+                 0 0 60px rgba(138, 43, 226, 0.3);
+    line-height: 1.3;
+    animation: titleGlow 3s ease-in-out infinite;
+}
+
+@keyframes titleGlow {
+    0%, 100% { 
+        text-shadow: 0 0 30px rgba(255, 105, 180, 0.4),
+                     0 0 60px rgba(138, 43, 226, 0.3);
+    }
+    50% { 
+        text-shadow: 0 0 40px rgba(255, 105, 180, 0.7),
+                     0 0 80px rgba(138, 43, 226, 0.5),
+                     0 0 100px rgba(255, 215, 0, 0.4);
+    }
+}
+
+/* Пожелания */
+.greeting-wishes {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 25px;
+}
+
+.greeting-wish {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    color: rgba(255, 255, 255, 0.85);
+    font-size: clamp(14px, 2.2vw, 17px);
+    line-height: 1.7;
+    padding: 12px 18px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 15px;
+    transition: all 0.4s;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    text-align: left;
+    animation: wishFadeIn 0.8s ease-out backwards;
+}
+
+.greeting-wish:nth-child(1) { animation-delay: 0.1s; }
+.greeting-wish:nth-child(2) { animation-delay: 0.2s; }
+.greeting-wish:nth-child(3) { animation-delay: 0.3s; }
+.greeting-wish:nth-child(4) { animation-delay: 0.4s; }
+.greeting-wish:nth-child(5) { animation-delay: 0.5s; }
+
+@keyframes wishFadeIn {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.greeting-wish:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 215, 0, 0.3);
+    transform: translateX(5px);
+}
+
+.wish-icon {
+    font-size: 22px;
+    flex-shrink: 0;
+    margin-top: 2px;
+    animation: iconPulse 2s infinite;
+}
+
+@keyframes iconPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+}
+
+.greeting-footer {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 10px;
+}
+
+.heart {
+    font-size: 24px;
+    animation: heartBeat 1.5s ease-in-out infinite;
+}
+
+.heart:nth-child(2) { animation-delay: 0.5s; }
+.heart:nth-child(3) { animation-delay: 1s; }
+
+@keyframes heartBeat {
+    0%, 100% { transform: scale(1); }
+    15% { transform: scale(1.3); }
+    30% { transform: scale(1); }
+    45% { transform: scale(1.15); }
+    60% { transform: scale(1); }
+}
+
+/* ========== СЕКЦИЯ ПОДАРКОВ ========== */
+.gifts-section-title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.gifts-title-line {
+    flex: 1;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.5), transparent);
+    max-width: 80px;
+}
+
+.gifts-title-text {
+    color: #ffd700;
+    font-size: clamp(20px, 4vw, 26px);
+    font-weight: 700;
+    text-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
+}
+
+/* ========== КАРТОЧКИ ПОДАРКОВ ========== */
+.gifts-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.gift-card {
+    position: relative;
+    cursor: pointer;
+    transition: all 0.4s;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.gift-card:hover {
+    transform: translateY(-10px);
+}
+
+.gift-card:active {
+    transform: scale(0.95);
+}
+
+.gift-card-glow {
+    position: absolute;
+    inset: -2px;
+    border-radius: 25px;
+    opacity: 0;
+    transition: opacity 0.4s;
+    z-index: 0;
+}
+
+.gift-card:hover .gift-card-glow {
+    opacity: 1;
+}
+
+.gift-card-gold .gift-card-glow {
+    background: linear-gradient(45deg, #ffd700, #ff8c00, #ffd700);
+    filter: blur(15px);
+}
+
+.gift-card-crystal .gift-card-glow {
+    background: linear-gradient(45deg, #87ceeb, #b0e0e6, #87ceeb);
+    filter: blur(15px);
+}
+
+.gift-card-cosmic .gift-card-glow {
+    background: linear-gradient(45deg, #9b59b6, #8e44ad, #9b59b6);
+    filter: blur(15px);
+}
+
+.gift-card-content {
+    position: relative;
+    z-index: 1;
+    background: rgba(255, 255, 255, 0.06);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 23px;
+    padding: 25px 15px 20px;
+    transition: all 0.4s;
+    height: 100%;
+}
+
+.gift-card-gold .gift-card-content:hover {
+    border-color: rgba(255, 215, 0, 0.4);
+    background: rgba(255, 215, 0, 0.08);
+}
+
+.gift-card-crystal .gift-card-content:hover {
+    border-color: rgba(135, 206, 235, 0.4);
+    background: rgba(135, 206, 235, 0.08);
+}
+
+.gift-card-cosmic .gift-card-content:hover {
+    border-color: rgba(155, 89, 182, 0.4);
+    background: rgba(155, 89, 182, 0.08);
+}
+
+/* Иконка подарка */
+.gift-preview {
+    position: relative;
+    height: 90px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 15px;
+}
+
+.gift-3d-icon {
+    font-size: 55px;
+    position: relative;
+    z-index: 2;
+    animation: giftFloat 3s ease-in-out infinite;
+    filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.3));
+}
+
+@keyframes giftFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+.gift-card:nth-child(2) .gift-3d-icon {
+    animation-delay: 0.5s;
+}
+
+.gift-card:nth-child(3) .gift-3d-icon {
+    animation-delay: 1s;
+}
+
+/* Частицы вокруг подарка */
+.gift-particles {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+}
+
+.particle {
+    position: absolute;
+    font-size: 14px;
+    opacity: 0;
+    animation: particleFloat 2.5s ease-in-out infinite;
+}
+
+.p1 { top: 10%; left: 10%; animation-delay: 0s; }
+.p2 { top: 10%; right: 10%; animation-delay: 0.8s; }
+.p3 { bottom: 20%; left: 50%; animation-delay: 1.6s; }
+
+@keyframes particleFloat {
+    0% { transform: translateY(0) scale(0); opacity: 0; }
+    30% { opacity: 1; }
+    100% { transform: translateY(-30px) scale(1.5); opacity: 0; }
+}
+
+/* Информация о подарке */
+.gift-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+
+.gift-badge {
+    font-size: 11px;
+    font-weight: 800;
+    padding: 4px 12px;
+    border-radius: 20px;
+    letter-spacing: 1px;
+}
+
+.gift-badge.gold {
+    background: linear-gradient(135deg, #ffd700, #ff8c00);
+    color: #000;
+}
+
+.gift-badge.crystal {
+    background: linear-gradient(135deg, #87ceeb, #4682b4);
+    color: #fff;
+}
+
+.gift-badge.cosmic {
+    background: linear-gradient(135deg, #9b59b6, #6c3483);
+    color: #fff;
+}
+
+.gift-card-name {
+    color: #fff;
+    font-size: clamp(13px, 2vw, 16px);
+    font-weight: 700;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+}
+
+.gift-card-desc {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 11px;
+}
+
+/* ========== ПОДСКАЗКА ========== */
+.subtitle {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 14px;
+    animation: subtitlePulse 2s infinite;
+}
+
+@keyframes subtitlePulse {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 0.8; }
+}
+
+/* ========== AR КОНТЕЙНЕР ========== */
+#ar-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 500;
+    display: none;
+}
+
+#ar-container.active {
+    display: block;
+}
+
+/* ========== КНОПКА НАЗАД ========== */
+#back-btn {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 2000;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    padding: 12px 24px;
+    border-radius: 50px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+}
+
+#back-btn:hover {
+    background: rgba(0, 0, 0, 0.8);
+    transform: translateX(-5px);
+}
+
+#back-btn.hidden {
+    display: none;
+}
+
+/* ========== АДАПТИВ ========== */
+@media (max-width: 768px) {
+    .gifts-row {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    
+    .gift-card-content {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        padding: 20px;
+    }
+    
+    .gift-preview {
+        height: auto;
+        margin-bottom: 0;
+        flex-shrink: 0;
+        width: 70px;
+    }
+    
+    .gift-3d-icon {
+        font-size: 40px;
+    }
+    
+    .gift-info {
+        align-items: flex-start;
+        text-align: left;
+    }
+    
+    .greeting-card {
+        padding: 25px 20px;
+    }
+    
+    .greeting-header {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+    
+    .greeting-emoji {
+        font-size: 30px;
+    }
+}
+
+@media (max-width: 400px) {
+    .greeting-card {
+        padding: 20px 15px;
+        border-radius: 20px;
+    }
+    
+    .greeting-wish {
+        font-size: 13px;
+        padding: 10px 12px;
+    }
+    
+    .gifts-title-text {
+        font-size: 18px;
+    }
+}
+
+/* Стили для модального окна с подарком */
+.gift-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.95);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    backdrop-filter: blur(10px);
+}
+
+.gift-modal.hidden {
+    display: none;
+}
+
+.modal-content {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    border-radius: 20px;
+    padding: 20px;
+    max-width: 600px;
+    width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), 0 0 40px rgba(255, 215, 0, 0.2);
+    border: 1px solid rgba(255, 215, 0, 0.3);
+    animation: modalIn 0.5s ease-out;
+}
+
+@keyframes modalIn {
+    from {
+        opacity: 0;
+        transform: scale(0.8) translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+@keyframes modalOut {
+    to {
+        opacity: 0;
+        transform: scale(0.8) translateY(20px);
+    }
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid rgba(255, 215, 0, 0.3);
+}
+
+.modal-title {
+    color: #FFD700;
+    font-size: 24px;
+    margin: 0;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+    animation: titleGlow 2s infinite;
+}
+
+@keyframes titleGlow {
+    0%, 100% { text-shadow: 0 0 10px rgba(255, 215, 0, 0.5); }
+    50% { text-shadow: 0 0 20px rgba(255, 215, 0, 0.8), 0 0 30px rgba(255, 215, 0, 0.4); }
+}
+
+.close-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s;
+}
+
+.close-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: rotate(90deg);
+}
+
+.modal-body {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+model-viewer {
+    border-radius: 15px;
+    background: linear-gradient(135deg, #0a0a1a 0%, #1a1a3e 100%);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+/* Стили для AR кнопки внутри model-viewer */
+.ar-button {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 25px;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: all 0.3s;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+}
+
+.ar-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+}
+
+.gift-description {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 15px;
+    padding: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+#gift-description-text {
+    color: #e0e0e0;
+    font-size: 16px;
+    line-height: 1.6;
+    margin: 0;
+    text-align: center;
+}
+
+.gift-actions {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+}
+
+.action-btn {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 30px;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: all 0.3s;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+    width: 100%;
+    justify-content: center;
+}
+
+.action-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+}
+
+.action-btn.ar-btn {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+}
+
+/* Адаптация для мобильных устройств */
+@media (max-width: 768px) {
+    .modal-content {
+        padding: 15px;
+        margin: 10px;
+    }
+    
+    .modal-title {
+        font-size: 20px;
+    }
+    
+    .action-btn {
+        font-size: 14px;
+        padding: 12px 24px;
+    }
+}
+
+/* Стили для загрузки */
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+
+.loading-overlay.hidden {
+    display: none;
+}
+
+.loading-spinner {
+    width: 50px;
+    height: 50px;
+    border: 4px solid rgba(255, 215, 0, 0.3);
+    border-top-color: #FFD700;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.loading-text {
+    color: #FFD700;
+    margin-top: 20px;
+    font-size: 18px;
+}
