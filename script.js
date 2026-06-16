@@ -16,7 +16,7 @@ const giftConfigs = {
     },
     3: {
         name: 'Подарок 3',
-        description: '🌟 Красивый домик!!! 🚀',
+        description: '🌟 Красивый домик!!! Если что, потом можно поменять на квартиру 🚀',
         modelUrl: 'presents/house_by_viking1.glb',
         color: '#45B7D1',
         arScale: '1.2 1.2 1.2'
